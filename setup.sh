@@ -61,7 +61,6 @@ fi
 export PYTHONPATH="${WORK_DIR}:${PYTHONPATH}"
 
 
-alias JHUB_PYTHON=/usr/bin/python3 # the python interpreter used to install the kenel into
 if [ ! -d "${HOME}/.local/share/jupyter/kernels/${PYENV}" ]; then
 	
     # install and configure ipython kernel
