@@ -63,14 +63,17 @@ export PYTHONPATH="${WORK_DIR}:${PYTHONPATH}"
 
 alias JHUB_PYTHON=/usr/bin/python3 # the python interpreter used to install the kenel into
 if [ ! -d "${HOME}/.local/share/jupyter/kernels/${PYENV}" ]; then
-	# install and configure ipython kernel
+	
+    # install and configure ipython kernel
 	echo "setting up ipykernel"
+    EXPORT_ENVS="--env WORK_DIR ${WORK_DIR} \
+                 --env PYTHONPATH ${PYTHONPATH} "
+    # only add the LD_LIBRARY_PATH if it is set
+    if [ ${LD_LIBRARY_PATH} ]; then
+        EXPORT_ENVS="--env  LD_LIBRARY_PATH ${LD_LIBRARY_PATH} ${EXPORT_ENVS}"
+    fi
 	# use the default python to install into the NAFs standard python to access kernel on JHUB
-	JHUB_PYTHON -m ipykernel install --user --name=${PYENV} \
-	--env WORK_DIR ${WORK_DIR} \
-	--env LD_LIBRARY_PATH ${LD_LIBRARY_PATH} \
-	--env PYTHONPATH ${PYTHONPATH} \
-
+	python3 -m ipykernel install --user --name=${PYENV} ${EXPORT_ENVS}
 fi
 
 echo "set up ${PYENV} finished!"
